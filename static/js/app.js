@@ -1,16 +1,26 @@
-/* The following is an example on how you might structure your code.
-This is not the only way to complete this assignment.
-Feel free to disregard and create your own code */
-
 // Define a function that will create metadata for given sample
 function buildMetadata(sample) {
 
     // Read the json data
+    d3.json("../samples.json").then((data) => {
+        
+        console.log(data);
 
         // Parse and filter the data to get the sample's metadata
+        var parsedData = JSON.parse(data); 
+        var metadata = parsedData.metadata; 
 
         // Specify the location of the metadata and update it
+        d3.select("#sample-metadata"); 
 
+        data.forEach((metadata) => {
+            var row = tbody.append("tr");
+            Object.entries(metadata).forEach(([key, value]) => {
+                var cell = row.append("td"); 
+                cell.text(value); 
+            }); 
+        }); 
+    });  
 }
 
 // Define a function that will create charts for given sample
