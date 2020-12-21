@@ -1,27 +1,50 @@
+test = {
+    "names":["940", "941", "943", "944", "945", "946", "947", "948"],
+    "metadata":[{"id": 940, "ethnicity": "Caucasian", "gender": "F", "age": 24.0, "location": "Beaufort/NC", "bbtype": "I", "wfreq": 2.0}, {"id": 941, "ethnicity": "Caucasian/Midleastern", "gender": "F", "age": 34.0, "location": "Chicago/IL", "bbtype": "I", "wfreq": 1.0}]
+}
+
+
 // Define a function that will create metadata for given sample
 function buildMetadata(sample) {
 
     // Read the json data
     d3.json("../samples.json").then((data) => {
         
-        console.log(data);
+        //console.log(data);
 
+        //console.log("next")
+        
         // Parse and filter the data to get the sample's metadata
-        var parsedData = JSON.parse(data); 
+        //var parsedData = JSON.parse(sample); 
+        var parsedData = data; 
         var metadata = parsedData.metadata; 
+        //console.log(metadata); 
 
         // Specify the location of the metadata and update it
-        d3.select("#sample-metadata"); 
+        var addingData = d3.select("#sample-metadata"); 
 
-        data.forEach((metadata) => {
-            var row = tbody.append("tr");
-            Object.entries(metadata).forEach(([key, value]) => {
-                var cell = row.append("td"); 
-                cell.text(value); 
+        metadata.forEach((id) => {
+            Object.entries(id).forEach(([key, value]) => {
+                addingData.append("p").text(`${key}: ${value}`); 
             }); 
         }); 
+
+        //console.log("next again"); 
+        //console.log(panelBody); 
     });  
 }
+
+//testing function 
+buildMetadata(test); 
+
+//Metadata: 
+//id
+//ethnicity
+//gender
+//age
+//location
+//bbtype
+//wfreq
 
 // Define a function that will create charts for given sample
 function buildCharts(sample) {
