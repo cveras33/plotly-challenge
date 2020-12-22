@@ -32,37 +32,77 @@ function buildCharts(selection) {
 
     // Read the json data
     d3.json("../samples.json").then((sampleData) => {
-    
+
         // Parse and filter the data to get the sample's OTU data
         // Pay attention to what data is required for each chart
-        var parsedData = sampleData.samples; 
+        var parsedData = sampleData.samples;
         console.log("parsed data inside buildCharts function")
-        console.log(parsedData); 
+        console.log(parsedData);
 
-        var barChartValues = parsedData[0].sample_values.slice(0, 10);
+        var values = parsedData[0].sample_values;
+        var barChartValues = values.slice(0, 10).reverse();
         console.log("sample_values")
         console.log(barChartValues);
 
-        var barChartLabels = parsedData[0].otu_ids.slice(0, 10); 
+        var labels = parsedData[0].otu_ids;
+        var barChartLabels = labels.slice(0, 10).reverse();
         console.log("otu_ids");
         console.log(barChartLabels);
 
         var reformattedLabels = [];
         barChartLabels.forEach((label) => {
-            reformattedLabels.push("OTU " + label); 
+            reformattedLabels.push("OTU " + label);
         });
 
         console.log("reformatted");
-        console.log(reformattedLabels); 
+        console.log(reformattedLabels);
 
-        var barCharthovertext = parsedData[0].otu_labels.slice(0, 10); 
+        var hovertext = parsedData[0].otu_labels;
+        var barCharthovertext = hovertext.slice(0, 10).reverse();
         console.log("otu_labels");
-        console.log(barCharthovertext); 
+        console.log(barCharthovertext);
 
         // Create bar chart in correct location
+        var barChart = d3.select("#bar");
+
+        var barChartTrace = {
+            type: "bar",
+            y: reformattedLabels,
+            x: barChartValues,
+            text: barCharthovertext,
+            orientation: 'h'
+        };
+
+        var barChartData = [barChartTrace];
+
+        Plotly.newPlot("bar", barChartData);
 
         // Create bubble chart in correct location
+        var bubleChart = d3.select("#bubble");
 
+        var bubbleChartTrace = {
+            x: labels,
+            y: values,
+            text: hovertext,
+            mode: "markers",
+            marker: {
+                color: barChartLabels,
+                size: barChartValues
+            }
+        };
+
+        var bubbleChartData = [bubbleChartTrace];
+
+        var layout = {
+            showlegend: false,
+            height: 600,
+            width: 1000,
+            xaxis: {
+                title: "OTU ID"
+            }
+        };
+
+        Plotly.newPlot("bubble", bubbleChartData, layout);
     });
 }
 
