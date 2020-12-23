@@ -40,6 +40,8 @@ function buildCharts(selection) {
         console.log(parsedData);
 
         var values = parsedData[0].sample_values;
+        console.log("values")
+        console.log(values);
         var barChartValues = values.slice(0, 10).reverse();
         console.log("sample_values")
         console.log(barChartValues);
@@ -86,8 +88,8 @@ function buildCharts(selection) {
             text: hovertext,
             mode: "markers",
             marker: {
-                color: barChartLabels,
-                size: barChartValues
+                color: labels,
+                size: values
             }
         };
 
@@ -135,9 +137,9 @@ function init() {
 function optionChanged(newSelection) {
 
     // Update metadata with newly selected sample
-
+    buildMetadata(newSelection); 
     // Update charts with newly selected sample
-
+    buildCharts(newSelection);
 }
 
 // Initialize dashboard on page load
