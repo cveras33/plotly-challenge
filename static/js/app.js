@@ -16,7 +16,7 @@ function buildMetadata(selection) {
         console.log(sample[0]);
 
         // Specify the location of the metadata and update it
-        var metadata = d3.select("#sample-metadata");
+        var metadata = d3.select("#sample-metadata").html("");
 
         Object.entries(sample[0]).forEach(([key, value]) => {
             metadata.append("p").text(`${key}: ${value}`);
@@ -39,15 +39,18 @@ function buildCharts(selection) {
         console.log("parsed data inside buildCharts function")
         console.log(parsedData);
 
-        var values = parsedData[0].sample_values;
-        console.log("values")
-        console.log(values);
-        var barChartValues = values.slice(0, 10).reverse();
+        var sampleDict = parsedData.filter(item => item.id == selection)[0];
+        console.log("sampleDict")
+        console.log(sampleDict);
+
+
+        var sampleValues = sampleDict.sample_values; 
+        var barChartValues = sampleValues.slice(0, 10).reverse();
         console.log("sample_values")
         console.log(barChartValues);
 
-        var labels = parsedData[0].otu_ids;
-        var barChartLabels = labels.slice(0, 10).reverse();
+        var idValues = sampleDict.otu_ids;
+        var barChartLabels = idValues.slice(0, 10).reverse();
         console.log("otu_ids");
         console.log(barChartLabels);
 
@@ -59,13 +62,12 @@ function buildCharts(selection) {
         console.log("reformatted");
         console.log(reformattedLabels);
 
-        var hovertext = parsedData[0].otu_labels;
+        var hovertext = sampleDict.otu_labels;
         var barCharthovertext = hovertext.slice(0, 10).reverse();
         console.log("otu_labels");
         console.log(barCharthovertext);
 
         // Create bar chart in correct location
-        var barChart = d3.select("#bar");
 
         var barChartTrace = {
             type: "bar",
@@ -80,16 +82,15 @@ function buildCharts(selection) {
         Plotly.newPlot("bar", barChartData);
 
         // Create bubble chart in correct location
-        var bubleChart = d3.select("#bubble");
 
         var bubbleChartTrace = {
-            x: labels,
-            y: values,
+            x: idValues,
+            y: sampleValues,
             text: hovertext,
             mode: "markers",
             marker: {
-                color: labels,
-                size: values
+                color: idValues,
+                size: sampleValues
             }
         };
 
