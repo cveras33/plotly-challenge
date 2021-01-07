@@ -2,7 +2,7 @@
 function buildMetadata(selection) {
 
     // Read the json data
-    d3.json("../../samples.json").then((sampleData) => {
+    d3.json("samples.json").then((sampleData) => {
 
         console.log(sampleData);
 
@@ -31,7 +31,7 @@ function buildMetadata(selection) {
 function buildCharts(selection) {
 
     // Read the json data
-    d3.json("../../samples.json").then((sampleData) => {
+    d3.json("samples.json").then((sampleData) => {
 
         // Parse and filter the data to get the sample's OTU data
         // Pay attention to what data is required for each chart
@@ -113,7 +113,7 @@ function buildCharts(selection) {
 function init() {
 
     // Read json data
-    d3.json("../../samples.json").then((sampleData) => {
+    d3.json("samples.json").then((sampleData) => {
 
         // Parse and filter data to get sample names
         var parsedData = sampleData.names;
